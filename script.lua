@@ -1,11 +1,32 @@
---// Created By CDHW/Kohrynth
---// Untitled Boxing Game | Auto Dodge
+-- ============================================
+-- Untitled Boxing Game | Auto Dodge + Anti-AFK
+-- Auto Dodge by CDHW/Kohrynth
+-- Anti-AFK integrated
+-- ============================================
 
-local player = game.Players.LocalPlayer
-local RS = game.RunService
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local VirtualUser = game:GetService("VirtualUser")
 
+local player = Players.LocalPlayer
+local RS = RunService
+
+-- ============================================
+-- AUTO ANTI-AFK (ALWAYS ON)
+-- ============================================
+player.Idled:Connect(function()
+    pcall(function()
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+    end)
+end)
+
+-- ============================================
+-- AUTO DODGE (CDHW/Kohrynth)
+-- ============================================
 local lastPerfect
 
+-- Clean up previous connections
 if getgenv().dodge then
     getgenv().dodge:Disconnect()
 end
@@ -109,12 +130,18 @@ local function dodge()
     end)
 end
 
+-- Start Auto Dodge
 getgenv().dodge = RS.Heartbeat:Connect(function()
     if player.Character then
         dodge()
     end
 end)
 
+-- Reset on respawn
 getgenv().dodgeChar = player.CharacterAdded:Connect(function()
     lastPerfect = nil
 end)
+
+print("✅ Auto Dodge + Anti-AFK Loaded!")
+print("   🥊 Auto Dodge: ACTIVE (CDHW/Kohrynth)")
+print("   🤖 Anti-AFK: ACTIVE (always on)")
