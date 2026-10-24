@@ -94,7 +94,7 @@ local function dodge()
     local root = character:FindFirstChild("HumanoidRootPart")
     local eroot = enemy:FindFirstChild("HumanoidRootPart")
 
-    if root and eroot and (root.Position - eroot.Position).Magnitude > 6 then
+    if root and eroot and (root.Position - eroot.Position).Magnitude > 7 then
         return
     end
 
